@@ -1,32 +1,37 @@
 import React, { useState } from "react";
 
-export default function Body() {
-  const [myStyle, setmyStyle] = useState({
-    color: "black",
-    backgroundColor: "white",
-  });
+export default function Body(props) {
+  // const [myStyle, setmyStyle] = useState({
+  //   color: "black",
+  //   backgroundColor: "white",
+  // })
 
-  const [btnText, setBtnText] = useState("Enable Dark Mode");
+  let myStyle={
+    color: props.mode ==='dark'? 'white': 'black',
+    backgroundColor: props.mode === 'dark'? 'black': 'white'
+  }
 
-  const toggleStyle = () => {
-    if (myStyle.color === "black") {
-      setmyStyle({
-        color: "white",
-        backgroundColor: "black",
-      });
+  // const [btnText, setBtnText] = useState("Enable Dark Mode");
 
-      setBtnText("Enable Light Mode");
-    } else {
-      setmyStyle({
-        color: "black",
-        backgroundColor: "white",
-      });
-      setBtnText("Enable Dark Mode");
-    }
-  };
+  // const toggleStyle = () => {
+  //   if (myStyle.color === "black") {
+  //     setmyStyle({
+  //       color: "white",
+  //       backgroundColor: "black",
+  //     });
+
+  //     setBtnText("Enable Light Mode");
+  //   } else {
+  //     setmyStyle({
+  //       color: "black",
+  //       backgroundColor: "white",
+  //     });
+  //     setBtnText("Enable Dark Mode");
+  //   }
+  // };
 
   return (
-    <div className="bikash_class" style={myStyle}>
+    <div className="bikash_class" style={{color: props.mode ==='dark'? 'white': 'black',}}>
       <h1>About Us</h1>
       <div className="accordion" id="accordionExample">
         <div className="accordion-item">
@@ -126,11 +131,7 @@ export default function Body() {
           </div>
         </div>
       </div>
-      <div className="container my-3">
-        <button onClick={toggleStyle} type="button" className="btn btn-primary">
-          {btnText}
-        </button>
-      </div>
+      
     </div>
   );
 }

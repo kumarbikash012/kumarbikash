@@ -21,6 +21,11 @@ export default function TextForm(props) {
     props.showAlert("Converted to Upper Case", "success");
 
   };
+
+  const handleCopyText =() =>{
+    navigator.clipboard.writeText(text);
+    props.showAlert("copied to clipboard", "success")
+  }
   const handleOnChange = (event) => {
     console.log("On change");
     setText(event.target.value);
@@ -32,7 +37,13 @@ setText(newText.join(" "));
 props.showAlert("Extra Space Removed", "success");
   }
 
-  const [text, setText] = useState("Enter Text Here");
+  const handleClearText = ()=>{
+    let newText = '';
+    setText(newText);
+    props.showAlert("Text Cleared", "success")
+  }
+
+  const [text, setText] = useState("");
   // setText("bikash"); to chandge the state variable
 
   return (
@@ -44,17 +55,21 @@ props.showAlert("Extra Space Removed", "success");
           style={{backgroundColor: props.mode ==='dark'?'grey':'white',color: props.mode ==='dark'?'white':'black' }} 
            id="myBox" rows="8" ></textarea>
         </div>
-        <button className={`btn btn-primary mx-2`} onClick={handleUpClick}>Convert to Uppercase</button>
-        <button className="btn btn-primary mx-2" onClick={handleLoClick}>Convert to Lowercase</button>
-        <button className="btn btn-primary mx-2" onClick={handleExtraSpace}>Remove Extra Space</button> 
+        <button disabled={text.length===0} className={`btn btn-primary mx-2 my-1`} onClick={handleUpClick}>Convert to Uppercase</button>
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleLoClick}>Convert to Lowercase</button>
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleExtraSpace}>Remove Extra Space</button> 
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleClearText}>Clear Text</button> 
+        <button disabled={text.length===0} className="btn btn-primary mx-2 my-1" onClick={handleCopyText}>Copy Text</button> 
+
+
       </div>
       <div className="container" style={{color: props.mode ==='dark'?'white':'black'}}>
         <h1>Text Summery</h1>
         <p>
-          {text.split(" ").length} words & {text.length}charecters
+          {text.split(/\s+/).filter((element)=>{return element.length!==0}).length} words & {text.length}charecters
         </p>
         <p>
-          {0.008 * text.split(" ").length} minutes will take for you to read
+          {0.008 * text.split(" ").filter((element)=>{return element.length!==0}).length} minutes will take for you to read
         </p>
         <h2>Preview</h2>
         <p>{text.length>0?text:"Enter Something to see preview here"}</p>
